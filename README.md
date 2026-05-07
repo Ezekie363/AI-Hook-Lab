@@ -1,5 +1,7 @@
 # ⚡ AI Hook Lab
 
+**🔗 在线体验：[https://ai-hook-lab.vercel.app](https://ai-hook-lab.vercel.app)**
+
 > 一键生成 10 个爆款开头 Hook —— 覆盖 8 种经典风格 + 2 个 AI 自由发挥
 
 面向内容创作者的 AI 文案工具。输入主题、选择平台和内容类型，AI 一次返回 10 个不同风格的开头钩子，每个附带风格标签、点击欲评分和推荐理由。无需登录，无数据库，纯前端 + Serverless API。
