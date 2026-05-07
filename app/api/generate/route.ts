@@ -7,9 +7,9 @@ const VALID_PLATFORMS = new Set(['小红书', '抖音', 'B站', 'YouTube', 'X'])
 const VALID_TYPES = new Set(['视频', '图文', '产品广告', '教程', '观点贴'])
 
 export async function POST(req: NextRequest) {
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.DEEPSEEK_API_KEY) {
     return NextResponse.json(
-      { error: '未配置 ANTHROPIC_API_KEY，请在 .env.local 中设置', code: 'NO_API_KEY' },
+      { error: '未配置 DEEPSEEK_API_KEY，请在 .env.local 中设置', code: 'NO_API_KEY' },
       { status: 500 }
     )
   }

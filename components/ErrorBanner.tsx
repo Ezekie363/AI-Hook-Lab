@@ -14,7 +14,7 @@ export default function ErrorBanner({ code, message }: ErrorBannerProps) {
           请在项目根目录创建 <code className="rounded bg-dark-card px-1 py-0.5 text-violet-300">.env.local</code> 文件并添加：
         </p>
         <pre className="mt-2 rounded bg-dark-card p-3 text-xs text-green-400">
-          ANTHROPIC_API_KEY=your_key_here
+          DEEPSEEK_API_KEY=your_key_here
         </pre>
         <p className="mt-2 text-slate-400">然后重启开发服务器。</p>
       </div>

@@ -1,7 +1,7 @@
-import Anthropic from '@anthropic-ai/sdk'
 import type { Hook } from '@/types'
 
-const MODEL = 'claude-sonnet-4-6'
+const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions'
+const MODEL = 'deepseek-chat'
 
 type RawHook = {
   style: string
@@ -31,16 +31,28 @@ export async function generateHooks(
   systemPrompt: string,
   userPrompt: string
 ): Promise<Omit<Hook, 'isFavorite'>[]> {
-  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-
-  const message = await client.messages.create({
-    model: MODEL,
-    max_tokens: 4096,
-    system: systemPrompt,
-    messages: [{ role: 'user', content: userPrompt }],
+  const res = await fetch(DEEPSEEK_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      max_tokens: 4096,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+    }),
   })
 
-  const block = message.content[0]
-  const text = block.type === 'text' ? block.text : ''
+  if (!res.ok) {
+    const err = await res.text()
+    throw new Error(`DeepSeek API error ${res.status}: ${err}`)
+  }
+
+  const data = await res.json()
+  const text: string = data.choices?.[0]?.message?.content ?? ''
   return parseHooks(text)
 }
