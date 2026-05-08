@@ -1,11 +1,15 @@
 @import "tailwindcss";
 
-@theme inline {
-  /* Fonts */
+/* Enable class-based dark mode */
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
 
-  /* Light neutral palette */
+  --animate-fadeUp: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  /* Light palette (default) */
   --color-cream:        #FAF8F5;
   --color-surface:      #FFFFFF;
   --color-warm-100:     #F0EBE5;
@@ -16,14 +20,25 @@
   --color-ink-3:        #9B958F;
   --color-accent:       #8B6B4A;
   --color-accent-light: #F5EDE4;
+}
 
-  /* Animations */
-  --animate-fadeUp: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes fadeUp {
+  0%   { opacity: 0; transform: translateY(18px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
-  @keyframes fadeUp {
-    0%   { opacity: 0; transform: translateY(18px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
+/* Dark mode — override all color tokens */
+.dark {
+  --color-cream:        #13110E;
+  --color-surface:      #1C1915;
+  --color-warm-100:     #232018;
+  --color-warm-200:     #2D2922;
+  --color-warm-300:     #3E392F;
+  --color-ink:          #F0EDE8;
+  --color-ink-2:        #A8A098;
+  --color-ink-3:        #6E6860;
+  --color-accent:       #C8966C;
+  --color-accent-light: #2A2118;
 }
 
 /* Hero utilities */
@@ -37,8 +52,8 @@
 
 @layer base {
   html {
-    background-color: #FAF8F5;
-    color: #1A1916;
+    background-color: var(--color-cream);
+    color: var(--color-ink);
     font-family: 'DM Sans', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -46,11 +61,11 @@
 
   body {
     min-height: 100vh;
-    background-color: #FAF8F5;
+    background-color: var(--color-cream);
   }
 
   ::-webkit-scrollbar       { width: 4px; }
-  ::-webkit-scrollbar-track { background: #FAF8F5; }
-  ::-webkit-scrollbar-thumb { background: #C4B9AE; border-radius: 2px; }
-  ::-webkit-scrollbar-thumb:hover { background: #8B6B4A; }
+  ::-webkit-scrollbar-track { background: var(--color-cream); }
+  ::-webkit-scrollbar-thumb { background: var(--color-warm-300); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
 }

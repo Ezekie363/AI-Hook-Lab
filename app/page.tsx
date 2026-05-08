@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import ThemeToggle from '@/components/ThemeToggle'
 import InputPanel from '@/components/InputPanel'
 import ResultsGrid from '@/components/ResultsGrid'
 import HistoryDrawer from '@/components/HistoryDrawer'
@@ -139,6 +140,8 @@ export default function HomePage() {
             >
               历史
             </button>
+            <div className="h-3 w-px bg-warm-300" />
+            <ThemeToggle />
           </div>
         </div>
       </header>

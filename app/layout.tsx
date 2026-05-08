@@ -6,10 +6,21 @@ export const metadata: Metadata = {
   description: '一键生成 10 个爆款开头 Hook，覆盖小红书、抖音、B站、YouTube、X',
 }
 
+// Injected before React hydrates — prevents flash of wrong theme
+const themeScript = `
+try {
+  var t = localStorage.getItem('theme');
+  var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (t === 'dark' || (!t && d)) document.documentElement.classList.add('dark');
+} catch (_) {}
+`
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-CN">
       <head>
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
