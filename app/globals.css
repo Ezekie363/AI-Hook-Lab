@@ -10,11 +10,11 @@
   --animate-fadeUp: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
   /* Light palette (default) */
-  --color-cream:        #FAF8F5;
-  --color-surface:      #FFFFFF;
-  --color-warm-100:     #F0EBE5;
-  --color-warm-200:     #E2D9D0;
-  --color-warm-300:     #C4B9AE;
+  --color-cream:        #F2EDE7;
+  --color-surface:      #FAF7F3;
+  --color-warm-100:     #EAE4DE;
+  --color-warm-200:     #D8D0C9;
+  --color-warm-300:     #C0B8B0;
   --color-ink:          #1A1916;
   --color-ink-2:        #5C5752;
   --color-ink-3:        #9B958F;
