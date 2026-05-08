@@ -29,9 +29,12 @@ export default function HookCard({ hook, onToggleFavorite }: HookCardProps) {
 
       {/* Header */}
       <div className="flex items-center justify-between">
-        <span className="rounded-full border border-warm-200 px-2.5 py-0.5 text-[10px] font-medium tracking-wide text-ink-3">
-          {hook.style}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="rounded-full border border-warm-200 px-2.5 py-0.5 text-[10px] font-medium tracking-wide text-ink-3">
+            {hook.style}
+          </span>
+          <span className="text-[10px] text-ink-3">{hook.content.length} 字</span>
+        </div>
         <span className={`font-serif text-lg font-light ${scoreColor}`}>
           {hook.score.toFixed(1)}
         </span>

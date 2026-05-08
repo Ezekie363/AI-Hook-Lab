@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import HookCard from './HookCard'
 import type { Hook } from '@/types'
 
@@ -33,6 +33,16 @@ function SkeletonCard() {
 
 export default function ResultsGrid({ hooks, loading, onToggleFavorite }: ResultsGridProps) {
   const [visibleCount, setVisibleCount] = useState(0)
+  const [copiedAll, setCopiedAll] = useState(false)
+
+  const handleCopyAll = useCallback(async () => {
+    const text = hooks
+      .map((h, i) => `${i + 1}. ${h.content}`)
+      .join('\n')
+    await navigator.clipboard.writeText(text)
+    setCopiedAll(true)
+    setTimeout(() => setCopiedAll(false), 1500)
+  }, [hooks])
 
   useEffect(() => {
     if (hooks.length === 0) {
@@ -66,6 +76,13 @@ export default function ResultsGrid({ hooks, loading, onToggleFavorite }: Result
           {hooks.length} 个 Hook
         </span>
         <div className="h-px flex-1 bg-warm-200" />
+        <button
+          type="button"
+          onClick={handleCopyAll}
+          className="shrink-0 text-[10px] tracking-wide text-ink-3 transition hover:text-ink"
+        >
+          {copiedAll ? '✓ 已复制' : '复制全部'}
+        </button>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {hooks.map((hook, i) => (
