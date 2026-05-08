@@ -121,26 +121,29 @@ export default function HomePage() {
           <span className="font-serif text-base font-light tracking-widest text-ink-2 uppercase">
             AI Hook Lab
           </span>
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => setActiveDrawer(activeDrawer === 'favorites' ? null : 'favorites')}
-              className="relative rounded-full px-4 py-1.5 text-xs font-medium tracking-wide text-ink-3 transition hover:text-ink"
-            >
-              收藏
-              {favorites.length > 0 && (
-                <span className="ml-1 font-mono text-accent">{favorites.length}</span>
-              )}
-            </button>
-            <div className="h-3 w-px bg-warm-300" />
-            <button
-              type="button"
-              onClick={() => setActiveDrawer(activeDrawer === 'history' ? null : 'history')}
-              className="rounded-full px-4 py-1.5 text-xs font-medium tracking-wide text-ink-3 transition hover:text-ink"
-            >
-              历史
-            </button>
-            <div className="h-3 w-px bg-warm-300" />
+          <div className="flex items-center gap-4">
+            {/* Text nav group */}
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setActiveDrawer(activeDrawer === 'favorites' ? null : 'favorites')}
+                className="relative rounded-full px-3 py-1.5 text-xs font-medium tracking-wide text-ink-3 transition hover:text-ink"
+              >
+                收藏
+                {favorites.length > 0 && (
+                  <span className="ml-1 font-mono text-accent">{favorites.length}</span>
+                )}
+              </button>
+              <div className="h-3 w-px bg-warm-300" />
+              <button
+                type="button"
+                onClick={() => setActiveDrawer(activeDrawer === 'history' ? null : 'history')}
+                className="rounded-full px-3 py-1.5 text-xs font-medium tracking-wide text-ink-3 transition hover:text-ink"
+              >
+                历史
+              </button>
+            </div>
+            {/* Theme toggle — visually separated */}
             <ThemeToggle />
           </div>
         </div>
