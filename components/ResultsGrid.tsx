@@ -70,16 +70,21 @@ export default function ResultsGrid({ hooks, loading, onToggleFavorite }: Result
 
   return (
     <>
-      <div className="mb-6 flex items-center gap-4">
+      {/* Centered section label */}
+      <div className="mb-4 flex items-center gap-4">
         <div className="h-px flex-1 bg-warm-200" />
         <span className="text-[10px] uppercase tracking-[0.25em] text-ink-3">
           {hooks.length} 个 Hook
         </span>
         <div className="h-px flex-1 bg-warm-200" />
+      </div>
+
+      {/* Copy-all — standalone, right-aligned */}
+      <div className="mb-6 flex justify-end">
         <button
           type="button"
           onClick={handleCopyAll}
-          className="shrink-0 text-[10px] tracking-wide text-ink-3 transition hover:text-ink"
+          className="rounded-full border border-warm-200 px-4 py-1.5 text-xs text-ink-3 transition hover:border-warm-300 hover:text-ink"
         >
           {copiedAll ? '✓ 已复制' : '复制全部'}
         </button>
