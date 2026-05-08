@@ -19,45 +19,47 @@ export default function HookCard({ hook, onToggleFavorite }: HookCardProps) {
 
   const scoreColor =
     hook.score >= 9
-      ? 'text-yellow-400'
+      ? 'text-accent'
       : hook.score >= 7
-        ? 'text-green-400'
-        : 'text-slate-400'
+        ? 'text-ink-2'
+        : 'text-ink-3'
 
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-dark-border bg-dark-card p-4 transition hover:border-violet-500/40">
-      {/* Header: style tag + score */}
+    <div className="group flex flex-col gap-4 rounded-xl border border-warm-200 bg-surface p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-warm-300 hover:shadow-[0_6px_24px_rgba(26,25,22,0.07)]">
+
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <span className="rounded-md bg-dark-card2 px-2 py-0.5 text-xs font-medium text-violet-400">
+        <span className="rounded-full border border-warm-200 px-2.5 py-0.5 text-[10px] font-medium tracking-wide text-ink-3">
           {hook.style}
         </span>
-        <span className={`text-sm font-bold ${scoreColor}`}>
-          ★ {hook.score.toFixed(1)}
+        <span className={`font-serif text-lg font-light ${scoreColor}`}>
+          {hook.score.toFixed(1)}
         </span>
       </div>
 
-      {/* Hook content */}
-      <p className="flex-1 text-sm leading-relaxed text-slate-100">{hook.content}</p>
+      {/* Content */}
+      <p className="flex-1 text-sm leading-relaxed text-ink">{hook.content}</p>
 
       {/* Reason */}
-      <p className="text-xs text-slate-500">{hook.reason}</p>
+      <p className="text-xs leading-relaxed text-ink-3">{hook.reason}</p>
 
       {/* Actions */}
-      <div className="flex items-center gap-2 pt-1">
+      <div className="flex items-center gap-3 border-t border-warm-100 pt-3">
         <button
+          type="button"
           onClick={handleCopy}
-          className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-dark-border py-1.5 text-xs text-slate-400 transition hover:border-slate-500 hover:text-slate-200"
+          className="flex-1 text-center text-xs text-ink-3 transition hover:text-ink"
         >
-          {copied ? '✓ 已复制' : '复制'}
+          {copied ? '✓ 已复制' : '复制文案'}
         </button>
+        <div className="h-3 w-px bg-warm-200" />
         <button
+          type="button"
           onClick={() => onToggleFavorite(hook)}
-          className={`rounded-lg border px-3 py-1.5 text-sm transition ${
-            hook.isFavorite
-              ? 'border-rose-500/40 bg-rose-950/20 text-rose-400'
-              : 'border-dark-border text-slate-500 hover:border-rose-500/40 hover:text-rose-400'
-          }`}
           aria-label={hook.isFavorite ? '取消收藏' : '收藏'}
+          className={`text-sm transition ${
+            hook.isFavorite ? 'text-accent' : 'text-ink-3 hover:text-accent'
+          }`}
         >
           {hook.isFavorite ? '♥' : '♡'}
         </button>

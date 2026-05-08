@@ -30,7 +30,6 @@ export default function HomePage() {
   const [favorites, setFavorites] = useState<Hook[]>([])
   const [activeDrawer, setActiveDrawer] = useState<ActiveDrawer>(null)
 
-  // Load persisted data on mount (client only)
   useEffect(() => {
     setHistory(getHistory())
     setFavorites(getFavorites())
@@ -57,13 +56,10 @@ export default function HomePage() {
       }
 
       const newHooks: Hook[] = data.hooks
-
-      // Sync isFavorite with current favorites
       const favIds = new Set(getFavorites().map((h) => h.id))
       const syncedHooks = newHooks.map((h) => ({ ...h, isFavorite: favIds.has(h.id) }))
       setHooks(syncedHooks)
 
-      // Save to history
       const entry: HistoryEntry = {
         id: crypto.randomUUID(),
         topic: topic.trim(),
@@ -117,48 +113,58 @@ export default function HomePage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Navbar */}
-      <header className="sticky top-0 z-30 border-b border-dark-border bg-dark-base/80 backdrop-blur">
-        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
-          <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-lg font-bold tracking-tight text-transparent">
-            ⚡ AI HOOK LAB
+
+      {/* ── Navbar ── */}
+      <header className="sticky top-0 z-30 border-b border-warm-200 bg-cream/90 backdrop-blur">
+        <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
+          <span className="font-serif text-base font-light tracking-widest text-ink-2 uppercase">
+            AI Hook Lab
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <button
               type="button"
               onClick={() => setActiveDrawer(activeDrawer === 'favorites' ? null : 'favorites')}
-              className="rounded-lg border border-dark-border px-3 py-1.5 text-xs text-slate-400 transition hover:border-violet-500/40 hover:text-violet-400"
+              className="relative rounded-full px-4 py-1.5 text-xs font-medium tracking-wide text-ink-3 transition hover:text-ink"
             >
               收藏
               {favorites.length > 0 && (
-                <span className="ml-1 text-violet-400">{favorites.length}</span>
+                <span className="ml-1 font-mono text-accent">{favorites.length}</span>
               )}
             </button>
+            <div className="h-3 w-px bg-warm-300" />
             <button
               type="button"
               onClick={() => setActiveDrawer(activeDrawer === 'history' ? null : 'history')}
-              className="rounded-lg border border-dark-border px-3 py-1.5 text-xs text-slate-400 transition hover:border-violet-500/40 hover:text-violet-400"
+              className="rounded-full px-4 py-1.5 text-xs font-medium tracking-wide text-ink-3 transition hover:text-ink"
             >
-              历史记录
+              历史
             </button>
           </div>
         </div>
       </header>
 
-      {/* Main content */}
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
-        {/* Tagline */}
-        <div className="mb-8 text-center">
-          <h1 className="mb-2 text-2xl font-bold text-slate-100 sm:text-3xl">
-            一键生成 10 个爆款开头
-          </h1>
-          <p className="text-sm text-slate-500">
-            覆盖 8 种经典风格 + 2 个 AI 自由发挥，找到最适合你的 Hook
-          </p>
-        </div>
+      {/* ── Hero ── */}
+      <section className="relative overflow-hidden border-b border-warm-200 px-6 py-16 text-center sm:py-24">
+        {/* subtle grain texture */}
+        <div className="hero-grain pointer-events-none absolute inset-0 opacity-[0.03]" />
+        <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.35em] text-ink-3">
+          AI Copywriting · 爆款文案
+        </p>
+        <h1 className="hero-title font-serif font-light leading-[0.9] tracking-tight text-ink">
+          Hook Lab
+        </h1>
+        <p className="mx-auto mt-8 max-w-sm text-sm leading-relaxed text-ink-3">
+          输入主题，选择平台与内容类型
+          <br />
+          一次生成 10 个不同风格的爆款开头
+        </p>
+      </section>
 
-        {/* Input */}
-        <div className="mb-8 rounded-2xl border border-dark-border bg-dark-card p-5 sm:p-6">
+      {/* ── Main ── */}
+      <main className="mx-auto w-full max-w-4xl flex-1 px-6 py-12">
+
+        {/* Input card */}
+        <div className="mb-10 rounded-2xl border border-warm-200 bg-surface p-6 shadow-[0_2px_16px_rgba(26,25,22,0.05)] sm:p-8">
           <InputPanel
             topic={topic}
             platform={platform}
@@ -173,7 +179,7 @@ export default function HomePage() {
 
         {/* Error */}
         {error && (
-          <div className="mb-6">
+          <div className="mb-8">
             <ErrorBanner code={error.code} message={error.message} />
           </div>
         )}
@@ -186,7 +192,12 @@ export default function HomePage() {
         />
       </main>
 
-      {/* Drawers */}
+      {/* ── Footer ── */}
+      <footer className="border-t border-warm-200 px-6 py-6 text-center">
+        <p className="text-[11px] tracking-wider text-ink-3 uppercase">AI Hook Lab</p>
+      </footer>
+
+      {/* ── Drawers ── */}
       <HistoryDrawer
         open={activeDrawer === 'history'}
         history={history}

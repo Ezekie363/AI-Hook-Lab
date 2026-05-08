@@ -12,19 +12,20 @@ interface ResultsGridProps {
 
 function SkeletonCard() {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-dark-border bg-dark-card p-4 animate-pulse">
+    <div className="flex flex-col gap-4 rounded-xl border border-warm-200 bg-surface p-5 animate-pulse">
       <div className="flex items-center justify-between">
-        <div className="h-5 w-16 rounded bg-dark-border" />
-        <div className="h-4 w-8 rounded bg-dark-border" />
+        <div className="h-5 w-14 rounded-full bg-warm-100" />
+        <div className="h-4 w-6 rounded bg-warm-100" />
       </div>
       <div className="space-y-2">
-        <div className="h-4 w-full rounded bg-dark-border" />
-        <div className="h-4 w-4/5 rounded bg-dark-border" />
+        <div className="h-4 w-full rounded bg-warm-100" />
+        <div className="h-4 w-5/6 rounded bg-warm-100" />
+        <div className="h-4 w-4/6 rounded bg-warm-100" />
       </div>
-      <div className="h-3 w-3/4 rounded bg-dark-border" />
-      <div className="flex gap-2 pt-1">
-        <div className="h-7 flex-1 rounded-lg bg-dark-border" />
-        <div className="h-7 w-10 rounded-lg bg-dark-border" />
+      <div className="h-3 w-3/4 rounded bg-warm-100" />
+      <div className="flex gap-3 border-t border-warm-100 pt-3">
+        <div className="h-4 flex-1 rounded bg-warm-100" />
+        <div className="h-4 w-4 rounded bg-warm-100" />
       </div>
     </div>
   )
@@ -58,17 +59,26 @@ export default function ResultsGrid({ hooks, loading, onToggleFavorite }: Result
   if (hooks.length === 0) return null
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-      {hooks.map((hook, i) => (
-        <div
-          key={hook.id}
-          className={`transition-all duration-300 ${
-            i < visibleCount ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
-          }`}
-        >
-          <HookCard hook={hook} onToggleFavorite={onToggleFavorite} />
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="mb-6 flex items-center gap-4">
+        <div className="h-px flex-1 bg-warm-200" />
+        <span className="text-[10px] uppercase tracking-[0.25em] text-ink-3">
+          {hooks.length} 个 Hook
+        </span>
+        <div className="h-px flex-1 bg-warm-200" />
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {hooks.map((hook, i) => (
+          <div
+            key={hook.id}
+            className={`transition-all duration-300 ${
+              i < visibleCount ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+            }`}
+          >
+            <HookCard hook={hook} onToggleFavorite={onToggleFavorite} />
+          </div>
+        ))}
+      </div>
+    </>
   )
 }
