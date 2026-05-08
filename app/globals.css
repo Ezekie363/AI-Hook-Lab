@@ -57,11 +57,14 @@
     font-family: 'DM Sans', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Smooth light/dark transition */
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   body {
     min-height: 100vh;
     background-color: var(--color-cream);
+    transition: background-color 0.2s ease;
   }
 
   ::-webkit-scrollbar       { width: 4px; }

@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import type { HistoryEntry } from '@/types'
 
 interface HistoryDrawerProps {
@@ -17,6 +18,15 @@ export default function HistoryDrawer({
   onDelete,
   onRestore,
 }: HistoryDrawerProps) {
+  useEffect(() => {
+    if (!open) return
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [open, onClose])
+
   return (
     <>
       {open && (

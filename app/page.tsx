@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import ThemeToggle from '@/components/ThemeToggle'
 import InputPanel from '@/components/InputPanel'
 import ResultsGrid from '@/components/ResultsGrid'
@@ -30,17 +30,19 @@ export default function HomePage() {
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const [favorites, setFavorites] = useState<Hook[]>([])
   const [activeDrawer, setActiveDrawer] = useState<ActiveDrawer>(null)
+  const [toast, setToast] = useState(false)
 
   useEffect(() => {
     setHistory(getHistory())
     setFavorites(getFavorites())
   }, [])
 
-  async function handleGenerate() {
+  const handleGenerate = useCallback(async () => {
     if (!topic.trim() || loading) return
     setLoading(true)
     setError(null)
     setHooks([])
+    setToast(false)
 
     try {
       const res = await fetch('/api/generate', {
@@ -71,12 +73,16 @@ export default function HomePage() {
       }
       addToHistory(entry)
       setHistory(getHistory())
+
+      // Show completion toast
+      setToast(true)
+      setTimeout(() => setToast(false), 2000)
     } catch {
       setError({ message: '网络错误，请检查连接后重试', code: 'NETWORK_ERROR' })
     } finally {
       setLoading(false)
     }
-  }
+  }, [topic, platform, contentType, loading])
 
   function handleToggleFavorite(hook: Hook) {
     if (hook.isFavorite) {
@@ -122,7 +128,6 @@ export default function HomePage() {
             AI Hook Lab
           </span>
           <div className="flex items-center gap-4">
-            {/* Text nav group */}
             <div className="flex items-center gap-1">
               <button
                 type="button"
@@ -143,31 +148,27 @@ export default function HomePage() {
                 历史
               </button>
             </div>
-            {/* Theme toggle — visually separated */}
             <ThemeToggle />
           </div>
         </div>
       </header>
 
-      {/* ── Hero ── */}
-      <section className="relative overflow-hidden border-b border-warm-200 px-6 py-16 text-center sm:py-24">
-        {/* subtle grain texture */}
+      {/* ── Hero (compact) ── */}
+      <section className="relative overflow-hidden border-b border-warm-200 px-6 py-10 text-center sm:py-14">
         <div className="hero-grain pointer-events-none absolute inset-0 opacity-[0.03]" />
-        <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.35em] text-ink-3">
+        <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.35em] text-ink-3">
           AI Copywriting · 爆款文案
         </p>
         <h1 className="hero-title font-serif font-light leading-[0.9] tracking-tight text-ink">
           Hook Lab
         </h1>
-        <p className="mx-auto mt-8 max-w-sm text-sm leading-relaxed text-ink-3">
-          输入主题，选择平台与内容类型
-          <br />
-          一次生成 10 个不同风格的爆款开头
+        <p className="mx-auto mt-6 max-w-sm text-sm leading-relaxed text-ink-3">
+          输入主题，选择平台与内容类型，一次生成 10 个爆款开头
         </p>
       </section>
 
       {/* ── Main ── */}
-      <main className="mx-auto w-full max-w-4xl flex-1 px-6 py-12">
+      <main className="mx-auto w-full max-w-4xl flex-1 px-6 py-10">
 
         {/* Input card */}
         <div className="mb-10 rounded-2xl border border-warm-200 bg-surface p-6 shadow-[0_2px_16px_rgba(26,25,22,0.05)] sm:p-8">
@@ -196,6 +197,19 @@ export default function HomePage() {
           loading={loading}
           onToggleFavorite={handleToggleFavorite}
         />
+
+        {/* Regenerate button — shown after results appear */}
+        {hooks.length > 0 && !loading && (
+          <div className="mt-10 text-center">
+            <button
+              type="button"
+              onClick={handleGenerate}
+              className="rounded-full border border-warm-200 px-6 py-2 text-xs tracking-wide text-ink-3 transition hover:border-warm-300 hover:text-ink"
+            >
+              重新生成
+            </button>
+          </div>
+        )}
       </main>
 
       {/* ── Footer ── */}
@@ -217,6 +231,15 @@ export default function HomePage() {
         onClose={() => setActiveDrawer(null)}
         onRemoveFavorite={handleRemoveFavorite}
       />
+
+      {/* ── Toast ── */}
+      <div
+        className={`pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full border border-warm-200 bg-surface px-5 py-2 text-xs tracking-wide text-ink-2 shadow-sm transition-all duration-300 ${
+          toast ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+        }`}
+      >
+        ✓ 生成完成
+      </div>
     </div>
   )
 }

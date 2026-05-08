@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Hook } from '@/types'
 
 interface FavoritesDrawerProps {
@@ -51,6 +51,15 @@ export default function FavoritesDrawer({
   onClose,
   onRemoveFavorite,
 }: FavoritesDrawerProps) {
+  useEffect(() => {
+    if (!open) return
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [open, onClose])
+
   return (
     <>
       {open && (
